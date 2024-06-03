@@ -1,0 +1,13 @@
+names:
+- Blue Green Algae
+- Green Algae
+nc: 2
+roboflow:
+  license: CC BY 4.0
+  project: algae-lqbhe
+  url: https://universe.roboflow.com/thisismyswamp/algae-lqbhe/dataset/1
+  version: 1
+  workspace: thisismyswamp
+test: C:\Users\zanyi\Documents\GitHub\Ai\YIC3\algae-1\test
+train: C:\Users\zanyi\Documents\GitHub\Ai\YIC3\algae-1\train
+val: C:\Users\zanyi\Documents\GitHub\Ai\YIC3\algae-1\valid
