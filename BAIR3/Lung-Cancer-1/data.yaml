@@ -1,0 +1,15 @@
+names:
+- Normal
+- Stage I
+- Stage II
+- Stage III
+nc: 4
+roboflow:
+  license: Public Domain
+  project: lung-cancer-zly5a
+  url: https://universe.roboflow.com/biophotonics-cancer-detection/lung-cancer-zly5a/dataset/1
+  version: 1
+  workspace: biophotonics-cancer-detection
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\Lung-Cancer-1\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\Lung-Cancer-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\Lung-Cancer-1\valid
