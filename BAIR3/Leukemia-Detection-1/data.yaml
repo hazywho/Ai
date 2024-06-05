@@ -1,0 +1,22 @@
+names:
+- Atypical lymphocyte
+- Band Neutrophil
+- Basophil
+- Blast
+- Eosinophil
+- Lymphocyte
+- Metamyelocyte
+- Monocyte
+- Myelocyte
+- NRC
+- Promyelocyte
+- Segmented neutrophil
+nc: 12
+roboflow:
+  license: CC BY 4.0
+  project: leukemia-detection
+  url: https://universe.roboflow.com/new-workspace-iy2aw/leukemia-detection/dataset/1
+  version: 1
+  workspace: new-workspace-iy2aw
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\Leukemia-Detection-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\Leukemia-Detection-1\valid
