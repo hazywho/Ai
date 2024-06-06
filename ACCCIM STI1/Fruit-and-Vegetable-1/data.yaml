@@ -1,0 +1,30 @@
+names:
+- apple
+- apple_rotten
+- banana
+- banana_rotten
+- capsicum
+- capsicum_rotten
+- guava
+- guava_rotten
+- lemon
+- mango
+- mango_rotten
+- orange
+- orange_rotten
+- pomegranate
+- pomegranate_rotten
+- strawberry
+- strawberry_rotten
+- tomato
+- tomato_rotten
+nc: 19
+roboflow:
+  license: Public Domain
+  project: fruit-and-vegetable
+  url: https://universe.roboflow.com/cse299/fruit-and-vegetable/dataset/1
+  version: 1
+  workspace: cse299
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\Fruit-and-Vegetable-1\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\Fruit-and-Vegetable-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\Fruit-and-Vegetable-1\valid
