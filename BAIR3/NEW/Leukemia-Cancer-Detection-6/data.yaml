@@ -1,0 +1,15 @@
+names:
+- Benign
+- Early
+- Pre
+- Pro
+nc: 4
+roboflow:
+  license: CC BY 4.0
+  project: leukemia-cancer-detection
+  url: https://universe.roboflow.com/custom-yolov5-o0hdb/leukemia-cancer-detection/dataset/6
+  version: 6
+  workspace: custom-yolov5-o0hdb
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\NEW\Leukemia-Cancer-Detection-6\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\NEW\Leukemia-Cancer-Detection-6\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\BAIR3\NEW\Leukemia-Cancer-Detection-6\valid
