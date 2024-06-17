@@ -1,0 +1,14 @@
+names:
+- beads
+- fibers
+- fragments
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: microplastic-detection-w5uzh
+  url: https://universe.roboflow.com/luis-angelo-valerio/microplastic-detection-w5uzh/dataset/2
+  version: 2
+  workspace: luis-angelo-valerio
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\YIC3(2)\Microplastic-Detection-2\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\YIC3(2)\Microplastic-Detection-2\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\YIC3(2)\Microplastic-Detection-2\valid
