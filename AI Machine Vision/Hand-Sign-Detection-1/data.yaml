@@ -1,0 +1,37 @@
+names:
+- A
+- B
+- C
+- D
+- E
+- F
+- G
+- H
+- I
+- J
+- K
+- L
+- M
+- N
+- O
+- P
+- Q
+- R
+- S
+- T
+- U
+- V
+- W
+- X
+- Y
+- Z
+nc: 26
+roboflow:
+  license: CC BY 4.0
+  project: hand-sign-detection-mgowa
+  url: https://universe.roboflow.com/uitm-l3czi/hand-sign-detection-mgowa/dataset/1
+  version: 1
+  workspace: uitm-l3czi
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\AI Machine Vision\Hand-Sign-Detection-1\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\AI Machine Vision\Hand-Sign-Detection-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\AI Machine Vision\Hand-Sign-Detection-1\valid
