@@ -1,0 +1,11 @@
+names:
+- pain
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: pain-0ozah
+  url: https://universe.roboflow.com/amy/pain-0ozah/dataset/1
+  version: 1
+  workspace: amy
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\AI Machine Vision\Pain\pain-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\AI Machine Vision\Pain\pain-1\valid
