@@ -12,6 +12,6 @@ roboflow:
   url: https://universe.roboflow.com/material-identification/garbage-classification-3/dataset/2
   version: 2
   workspace: material-identification
-test: ../test/images
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\rubbishPickingRobot\GARBAGE-CLASSIFICATION-3-2\test
 train: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\rubbishPickingRobot\GARBAGE-CLASSIFICATION-3-2\train
-val: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\rubbishPickingRobot\GARBAGE-CLASSIFICATION-3-2\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\rubbishPickingRobot\GARBAGE-CLASSIFICATION-3-2\valid
