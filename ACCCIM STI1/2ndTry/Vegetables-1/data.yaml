@@ -1,0 +1,37 @@
+names:
+- avocado
+- beans
+- beet
+- bell pepper
+- broccoli
+- brus capusta
+- cabbage
+- carrot
+- cayliflower
+- celery
+- corn
+- cucumber
+- eggplant
+- fasol
+- garlic
+- hot pepper
+- onion
+- peas
+- potato
+- pumpkin
+- rediska
+- redka
+- salad
+- squash-patisson
+- tomato
+- vegetable marrow
+nc: 26
+roboflow:
+  license: CC BY 4.0
+  project: vegetables-el4g6
+  url: https://universe.roboflow.com/vegetables/vegetables-el4g6/dataset/1
+  version: 1
+  workspace: vegetables
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\2ndTry\Vegetables-1\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\2ndTry\Vegetables-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\2ndTry\Vegetables-1\valid
