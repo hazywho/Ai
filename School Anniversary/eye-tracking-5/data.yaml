@@ -1,0 +1,13 @@
+names:
+- eye
+- gaze
+nc: 2
+roboflow:
+  license: CC BY 4.0
+  project: eye-tracking-2l0uc
+  url: https://universe.roboflow.com/handsfree-hid/eye-tracking-2l0uc/dataset/5
+  version: 5
+  workspace: handsfree-hid
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-5\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-5\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-5\valid
