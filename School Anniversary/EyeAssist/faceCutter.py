@@ -4,7 +4,7 @@ model = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\EyeAssist\y
 path = r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-5\train\images\WIN_20221130_13_36_33_Pro_jpg.rf.25eb7232c5994972629bf98527c6e703.jpg"
 image = cv2.imread(path)
 def cutOut(image, log=True):
-    prediction = model.predict(source=image,show=True)
+    prediction = model.predict(source=image)
     if log:
         print(prediction[0].boxes)
     try:

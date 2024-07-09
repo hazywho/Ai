@@ -1,0 +1,109 @@
+from ultralytics import YOLO
+import cv2
+import keyboard
+import statistics
+
+seperator = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\EyeAssist\yolov8n.pt")
+
+#define useful functions
+def cutOut(image, log=True):
+    prediction = seperator.predict(source=image)
+    if log:
+        print(prediction[0].boxes)
+    try:
+        value = [0,0,0,0]
+        predictedValues = prediction[0].boxes.xywh.tolist()
+        predictedObjects = prediction[0].boxes.cls.tolist()
+        for index,item in enumerate(predictedObjects):
+            if item==0:
+                if predictedValues[index][2]+predictedValues[index][3] > value[2]+value[3]:
+                    value = predictedValues[index]
+        x,y,w,h = value
+        return image[int(x-w/2):int(x+w/2), int(y-h/2):int(y+h/2)]
+    except ValueError:
+        return None
+def preprocess(n):
+    x1 = int(n[0]+n[2]/2)
+    y1 = int(n[1]+n[3]/2)
+    x2 = int(n[0]-n[2]/2)
+    y2 = int(n[1]-n[3]/2)
+    return x1,y1,x2,y2
+#joshua i need your help
+def mostSimilar(n):
+    return sum(n)-avrg
+
+#setup
+cap = cv2.VideoCapture(0)
+model = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\runs\detect\train4\weights\best.pt")
+
+while True:
+    #get source, process source so only face left
+    ret, frame = cap.read()
+    preprocessedImage = cutOut(frame)
+    prediction = model.predict(source=frame)
+    img = prediction[0].orig_img
+    predictedValue = prediction[0].boxes.xywh.tolist()
+    try:
+        if len(predictedValue)>4:
+            eye=[]
+            iris=[]
+            for index,tag in enumerate(prediction[0].boxes.cls.tolist()):
+                if tag==0:
+                    iris.append(predictedValue[index])
+                elif tag==1:
+                    eye.append(predictedValue[index])
+            global avrg
+            avrg = statistics.mean(iris)
+            sorted(iris,key=mostSimilar)
+            avrg = statistics.mean(eye)
+            sorted(eye,key=mostSimilar)
+            
+            #prepare values
+            a1 = iris[0]
+            b1 = iris[1]
+            a2 = eye[0]
+            b2 = eye[1]
+            #small box
+            irisx1,irisy1,irisw1,irish1 = preprocess(a1)
+            irisx2,irisy2,irisw2,irish2 = preprocess(b1)
+            img = cv2.rectangle(img,(irisx1,irisy1),(irisw1,irish1),(255,0,0),2) #plotting
+            img = cv2.rectangle(img,(irisx2,irisy2),(irisw2,irish2),(255,0,0),2) #plotting
+            #big box
+            eyex1,eyey1,eyew1,eyeh1 = preprocess(a2)
+            eyex2,eyey2,eyew2,eyeh2 = preprocess(b2)
+            img = cv2.rectangle(img,(eyex1,eyey1),(eyew1,eyeh1),(0,255,0),2)
+            img = cv2.rectangle(img,(eyex2,eyey2),(eyew2,eyeh2),(0,255,0),2)
+
+        elif len(predictedValue)==4:
+            a1 = predictedValue[0]
+            b1 = predictedValue[1]
+            a2 = predictedValue[2]
+            b2 = predictedValue[3]
+            #small box
+            irisx1,irisy1,irisw1,irish1 = preprocess(a1)
+            irisx2,irisy2,irisw2,irish2 = preprocess(b1)
+            img = cv2.rectangle(img,(irisx1,irisy1),(irisw1,irish1),(255,0,0),2) #plotting
+            img = cv2.rectangle(img,(irisx2,irisy2),(irisw2,irish2),(255,0,0),2) #plotting
+            #big box
+            eyex1,eyey1,eyew1,eyeh1 = preprocess(a2)
+            eyex2,eyey2,eyew2,eyeh2 = preprocess(b2)
+            img = cv2.rectangle(img,(eyex1,eyey1),(eyew1,eyeh1),(0,255,0),2)
+            img = cv2.rectangle(img,(eyex2,eyey2),(eyew2,eyeh2),(0,255,0),2)
+        elif len(predictedValue)==2:
+            a = predictedValue[0]
+            b = predictedValue[1]
+            x1,y1,w1,h1 = preprocess(a)
+            x2,y2,w2,h2 = preprocess(b)
+            img = cv2.rectangle(img,(x1,y1),(w1,h1),(255,0,0),2)
+            img = cv2.rectangle(img,(x2,y2),(w2,h2),(0,255,0),2)
+        else:
+            None
+        cv2.imshow("frame",img)
+        if keyboard.is_pressed("q"):
+            print("Terminating....")
+            cap.release()
+            cv2.destroyAllWindows()
+            break
+    except ValueError:
+        None
+print("Terminated")
