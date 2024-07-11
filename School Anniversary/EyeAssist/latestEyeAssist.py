@@ -3,6 +3,10 @@ import cv2
 import gradio as gr
 import time
 import pyautogui
+import torch
+#pip install cv2
+#pip install gradio
+#pip install ultralytics
 
 #define useful functions
 def cutOut(image, log=True):
@@ -29,18 +33,21 @@ def preprocess(n):
     return x1,y1,x2,y2
 #joshua i need your help
 
-
 #setup
 cap = cv2.VideoCapture(0)
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 seperator = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\EyeAssist\faceDetection\runs\detect\train4\weights\best.pt")
 model = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\runs\detect\train4\weights\best.pt")
+model.to(device)
 logging = False
 sep=False
+
+#run mainloop
 def run():
     while True:
         #get source, process source so only face left
         ret, frame = cap.read()
-        preprocessedImage = cutOut(frame,log=False)
+        preprocessedImage = cutOut(frame,log=logging)
         prediction = model.predict(source=preprocessedImage if sep else frame,show_labels=False,show_conf=False,show_boxes=False)
         time.sleep(0.08)
         img = prediction[0].orig_img
@@ -85,42 +92,47 @@ def run():
                 img = cv2.rectangle(img,(eyex2,eyey2),(eyew2,eyeh2),(0,255,0),2)
 
                 #determine eye direction
-                percentagex = 5
-                percentagey = 3
+                percentagex = 8
+                percentagey = 6
                 lengthfactor = ((a2[2]+b2[2])/2)*percentagex/100
                 heightfactor = ((a2[3]+b2[3])/2)*percentagey/100
-                center1 = 0
-                center2 = 0
+                center1=0
+                center2=0
                 if a2[0]+lengthfactor < a1[0] or b2[0]+lengthfactor < b1[0]:
+                    pyautogui.move(20, 0) 
                     yield "right"
                 elif a2[0]-lengthfactor > a1[0] or b2[0]-lengthfactor > b1[0]:
+                    pyautogui.move(-20, 0)       
                     yield "left"
                 else:
                     center1=1
                 if a2[1]+heightfactor < a1[1] or b2[1]+heightfactor < b1[1]:
+                    pyautogui.move(0, 20)       
                     yield "up"
                 elif a2[1]-heightfactor > a1[1] or b2[1]-heightfactor > b1[1]:
+                    pyautogui.move(0, -20)       
                     yield "down"
                 else:
                     center2=1
                 if center1 and center2:
                     yield "center"
-
-                cv2.imshow("frame",img)
-                if cv2.waitKey(1) & 0xFF == ord('a'):
-                    print("Terminating....")
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    break
+                
             else:
-                print("no eye detected")
-                continue
+                yield "no eye detected"
+
+            cv2.imshow("frame",img)
+            if cv2.waitKey(1) & 0xFF == ord('a'):
+                print("Terminating....")
+                cap.release()
+                cv2.destroyAllWindows()
+                break
         except ValueError:
             continue
     demo.close()
     print("Terminated")
     exit()
 
+#gradio interface
 with gr.Blocks() as demo:
     submit_btn = gr.Button(value="Run")
     display = gr.Textbox()
