@@ -3,6 +3,10 @@ import cv2
 import gradio as gr
 import time
 import pyautogui
+import torch
+#pip install cv2
+#pip install gradio
+#pip install ultralytics
 
 #define useful functions
 def cutOut(image, log=True):
@@ -29,18 +33,22 @@ def preprocess(n):
     return x1,y1,x2,y2
 #joshua i need your help
 
-
 #setup
 cap = cv2.VideoCapture(0)
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 seperator = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\EyeAssist\faceDetection\runs\detect\train4\weights\best.pt")
 model = YOLO(r"C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\runs\detect\train4\weights\best.pt")
+model.to(device)
 logging = False
 sep=False
+
+#run mainloop
 def run():
+    firstTime=1
     while True:
         #get source, process source so only face left
         ret, frame = cap.read()
-        preprocessedImage = cutOut(frame,log=False)
+        preprocessedImage = cutOut(frame,log=logging)
         prediction = model.predict(source=preprocessedImage if sep else frame,show_labels=False,show_conf=False,show_boxes=False)
         time.sleep(0.08)
         img = prediction[0].orig_img
@@ -76,51 +84,68 @@ def run():
                 #small box
                 irisx1,irisy1,irisw1,irish1 = preprocess(a1)
                 irisx2,irisy2,irisw2,irish2 = preprocess(b1)
-                img = cv2.rectangle(img,(irisx1,irisy1),(irisw1,irish1),(255,0,0),2) #plotting
-                img = cv2.rectangle(img,(irisx2,irisy2),(irisw2,irish2),(255,0,0),2) #plotting
+                iris1xyxy=[irisx1,irisy1,irisw1,irish1]
+                iris2xyxy=[irisx2,irisy2,irisw2,irish2]
+                img = cv2.rectangle(img,(iris1xyxy[0],iris1xyxy[1]),(iris1xyxy[2],iris1xyxy[3]),(255,0,0),2) #plotting
+                img = cv2.rectangle(img,(iris2xyxy[0],iris2xyxy[1]),(iris2xyxy[2],iris2xyxy[3]),(255,0,0),2) #plotting
                 #big box
                 eyex1,eyey1,eyew1,eyeh1 = preprocess(a2)
                 eyex2,eyey2,eyew2,eyeh2 = preprocess(b2)
-                img = cv2.rectangle(img,(eyex1,eyey1),(eyew1,eyeh1),(0,255,0),2)
-                img = cv2.rectangle(img,(eyex2,eyey2),(eyew2,eyeh2),(0,255,0),2)
+                eye1xyxy=[eyex1,eyey1,eyew1,eyeh1]
+                eye2xyxy=[eyex2,eyey2,eyew2,eyeh2]
+                img = cv2.rectangle(img,(eye1xyxy[0],eye1xyxy[1]),(eye1xyxy[2],eye1xyxy[3]),(0,255,0),2)
+                img = cv2.rectangle(img,(eye2xyxy[0],eye2xyxy[1]),(eye2xyxy[2],eye2xyxy[3]),(0,255,0),2)
+                if firstTime:
+                    #calculate 3rd bounding box to determine direction
+                    #eye1
+                    eye1BottomLeftCorner=(eye1xyxy[0],eye1xyxy[1])
+                    eye1TopRightCorner=(eye1xyxy[2],eye1xyxy[3])
+                    iris1BottomLeftCorner=(iris1xyxy[0],iris1xyxy[1])
+                    iris1TopRightCorner=(iris1xyxy[2],iris1xyxy[3])
+                    iris1 = (a1[0],a1[1])
+                    iris2 = (b1[0],b[1])
+                    meanBottonLeft1=(int((eye1BottomLeftCorner[0]+iris1BottomLeftCorner[0])/2),int((eye1BottomLeftCorner[1]+iris1BottomLeftCorner[1])/2))
+                    meanTopRight1=(int((eye1TopRightCorner[0]+iris1TopRightCorner[0])/2),int((eye1TopRightCorner[1]+iris1TopRightCorner[1])/2))
+
+                    #eye2
+                    eye2BottomLeftCorner=(eye2xyxy[0],eye2xyxy[1])
+                    eye2TopRightCorner=(eye2xyxy[2],eye2xyxy[3])
+                    iris2BottomLeftCorner=(iris2xyxy[0],iris2xyxy[1])
+                    iris2TopRightCorner=(iris2xyxy[2],iris2xyxy[3])
+                    meanBottonLeft2=(int((eye2BottomLeftCorner[0]+iris2BottomLeftCorner[0])/2),int((eye2BottomLeftCorner[1]+iris2BottomLeftCorner[1])/2))
+                    meanTopRight2=(int((eye2TopRightCorner[0]+iris2TopRightCorner[0])/2),int((eye2TopRightCorner[1]+iris2TopRightCorner[1])/2))
+                    firstTime=0
+                img = cv2.rectangle(img,meanBottonLeft1,meanTopRight1,(0,0,255),1) #bounding box1
+                img = cv2.rectangle(img,meanBottonLeft2, meanTopRight2,(0,0,255),1) #bounding box2
+                
 
                 #determine eye direction
-                percentagex = 5
-                percentagey = 3
-                lengthfactor = ((a2[2]+b2[2])/2)*percentagex/100
-                heightfactor = ((a2[3]+b2[3])/2)*percentagey/100
-                center1 = 0
-                center2 = 0
-                if a2[0]+lengthfactor < a1[0] or b2[0]+lengthfactor < b1[0]:
-                    yield "right"
-                elif a2[0]-lengthfactor > a1[0] or b2[0]-lengthfactor > b1[0]:
-                    yield "left"
-                else:
-                    center1=1
-                if a2[1]+heightfactor < a1[1] or b2[1]+heightfactor < b1[1]:
-                    yield "up"
-                elif a2[1]-heightfactor > a1[1] or b2[1]-heightfactor > b1[1]:
-                    yield "down"
-                else:
-                    center2=1
-                if center1 and center2:
-                    yield "center"
-
-                cv2.imshow("frame",img)
-                if cv2.waitKey(1) & 0xFF == ord('a'):
-                    print("Terminating....")
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    break
+                if iris1[0]<meanBottonLeft1[0] or iris2[0]<meanBottonLeft2[0]:
+                    yield "Left"
+                if iris1[0]>meanTopRight1[0] or iris2[0]>meanTopRight2[0]:
+                    yield "Right"
+                if iris1[1] > meanTopRight1[1] or iris2[1] > meanTopRight2[1]:
+                    yield "Up"
+                if iris1[1] < meanBottonLeft1[1] or iris2[1] < meanBottonLeft2[1]:
+                    yield "Down"
+                if (meanBottonLeft1[0] < iris1[0] < meanTopRight1[0] and meanBottonLeft1[1] < iris1[1] < meanTopRight1[1]) or (meanBottonLeft2[0] < iris2[0] < meanTopRight2[0] and meanBottonLeft2[1] < iris2[1] < meanTopRight2[1]):
+                    yield "Middle"
             else:
-                print("no eye detected")
-                continue
+                yield "no eye detected"
+
+            cv2.imshow("frame",img)
+            if cv2.waitKey(1) & 0xFF == ord('a'):
+                print("Terminating....")
+                cap.release()
+                cv2.destroyAllWindows()
+                break
         except ValueError:
             continue
     demo.close()
     print("Terminated")
     exit()
 
+#gradio interface
 with gr.Blocks() as demo:
     submit_btn = gr.Button(value="Run")
     display = gr.Textbox()
