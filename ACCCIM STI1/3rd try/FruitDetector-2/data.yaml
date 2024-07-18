@@ -1,0 +1,27 @@
+names:
+- chinese celery
+- cilantro
+- cucumber
+- garlic
+- grapefruit
+- green apple
+- kiwi
+- mint
+- navel orange
+- onion
+- orange
+- potato
+- red apple
+- sweet potato
+- thai basil
+- zucchini
+nc: 16
+roboflow:
+  license: CC BY 4.0
+  project: fruitdetector-uhbrs
+  url: https://universe.roboflow.com/hezy-kouog/fruitdetector-uhbrs/dataset/2
+  version: 2
+  workspace: hezy-kouog
+test: ../test/images
+train: FruitDetector-2/train/images
+val: FruitDetector-2/valid/images

@@ -1,0 +1,17 @@
+names:
+- Close
+- Down
+- Left
+- Right
+- Straight
+- Up
+nc: 6
+roboflow:
+  license: MIT
+  project: eye-tracking-ztsqw
+  url: https://universe.roboflow.com/wheelchaireyedetection/eye-tracking-ztsqw/dataset/1
+  version: 1
+  workspace: wheelchaireyedetection
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-1\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-1\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\School Anniversary\eye-tracking-1\valid
