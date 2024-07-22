@@ -22,6 +22,6 @@ roboflow:
   url: https://universe.roboflow.com/hezy-kouog/fruitdetector-uhbrs/dataset/2
   version: 2
   workspace: hezy-kouog
-test: ../test/images
-train: FruitDetector-2/train/images
-val: FruitDetector-2/valid/images
+test: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\3rd try\FruitDetector-2\test
+train: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\3rd try\FruitDetector-2\train
+val: C:\Users\zanyi\OneDrive\Git hub\Ai\ACCCIM STI1\3rd try\FruitDetector-2\valid
